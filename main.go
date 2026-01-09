@@ -1,88 +1,58 @@
 package main
 
-import "fmt"
-
-// porvided by go library ,you dont need to invoke it by yourslef ,it gets called automatically before main
-func init() {
-	fmt.Println("I will be called before main")
-}
+import (
+	"fmt"
+	"go-code/directions"
+	"go-code/funPackage"
+	"go-code/fizbuzz"
+	"go-code/loopPrc"
+	
+	
+)
 
 func main() {
-	fmt.Println("Main is called")
 
-	//// annonymous function or lmabda function they dnt need to have name
-	//c := func(param int) int {
-	//	/// you can put logic
-	//	fmt.Println(param)
-	//	return 2 * 2
-	//}(2)
+	//Directions using basic Import functions
+	fmt.Println("Directions")
+	fmt.Println("North: ",directions.North)
+	fmt.Println("East: ",directions.East)
+	fmt.Println("West: ",directions.West)
+	fmt.Println("South: ",directions.South)
 
-	//fmt.Println(c)
+	//Arithmatic Operations Using Functions
+	Sum,Sub,Mul:=funPackage.Cal(1,2,3,4,5)
+	fmt.Println("Sum",Sum)
+	fmt.Println("Sub",Sub)
+	fmt.Println("Mul",Mul)
 
-	//func() {
-	//
-	//}()
+	//Division
+	div,rem:=funPackage.DivRem(10,20)
+	fmt.Println("Division:",div)
+	fmt.Println("Remainder:",rem)
 
-	//c := foo()
-	//
-	//// c is also a function
-	//
-	//c()
+	nums:=fizbuzz.SwitchPrac(10)
+	fmt.Println(nums)
 
-	applyOperation(func(x int) int {
-		if x%2 == 0 {
-			return x * 2
-		} else {
-			return x * 3
+	for i:=0;i<50;i++{
+		if(i%2==0){
+			continue
 		}
-
-	})
-
-	gh(2)
-}
-
-// function foo is a higher order  function because it is returning a function
-func foo() func() int {
-
-	// i can return a function from it
-	return func() int {
-		return 2
+		fmt.Println(i)
 	}
-}
-
-// bar is a higher order function as well
-// param is a call back function
-func bar(param func(p int) int) {
-	param(2)
-}
-
-/**
-Write a Go program that demonstrates a higher-order function.
- 1. Create a higher-order function named applyOperation that:
- • Accepts another function as a parameter
- • The passed function should take an integer and return an integer
- 2. Inside applyOperation:
- • Use a for loop to iterate from 1 to 5
- • For each number, call the passed function
- • Print the returned result
- 3. In main:
- • Pass an anonymous function to applyOperation
- • The anonymous function should use if–else logic:
- • If the number is even, return n * 2
- • If the number is odd, return n * 3
-
-*/
-
-func gh(p int) {
-
-}
-
-func hj(k func(ji int) int) {
-
-}
-func applyOperation(p func(x int) int) {
-	for i := 1; i <= 5; i++ {
-		ret := p(i)
-		fmt.Println(ret)
+	
+	for i := 1; i < 16; i++ {
+		fmt.Println(loopPrc.Fizzbuzzes(i))
 	}
+
+
+	// ApplyOperation(func(n int) int {
+	// 	if n%2 == 0 {
+	// 		return n * 2 
+	// 	} else {
+	// 		return n * 3 
+	// // 	}
+	// })
+
 }
+
+
