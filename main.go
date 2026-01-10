@@ -111,6 +111,15 @@ func main() {
 		}}
 
 	fmt.Printf("%+v", s1)
+
+	e1 := Employee{
+		Address{
+			City:    "New Delhi",
+			State:   "New Delhi",
+			PinCode: "201001",
+		},
+	}
+	fmt.Printf("%+v", e1)
 }
 
 // ----go is not an object oriented progrmaming language it has objects
@@ -142,5 +151,5 @@ type Address struct {
 }
 
 type Employee struct {
-	Address Address
+	Address // particularly this is embedding
 }
