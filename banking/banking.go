@@ -1,8 +1,11 @@
 package banking
 
-import "fmt"
+import (
+	"fmt"
+)
+   
 
-/* ---------------- TRANSACTION ---------------- */
+
 
 type Transaction struct {
 	TransactionID   int
@@ -24,7 +27,7 @@ func (t *Transaction) MarkFailed(reason string) {
 	fmt.Println("Transaction Failed:", reason)
 }
 
-/* ---------------- CUSTOMER ---------------- */
+
 
 type Customer struct {
 	CustomerID  int
@@ -46,7 +49,7 @@ func (c *Customer) IsEligibleForBanking() bool {
 	return c.Age >= 18 && c.IsActive
 }
 
-/* ---------------- BANK ACCOUNT ---------------- */
+
 
 type BankAccount struct {
 	AccountNumber int
@@ -115,7 +118,7 @@ func (a *BankAccount) UnfreezeAccount() {
 	a.IsFrozen = false
 }
 
-/* ---------------- BANK ---------------- */
+
 
 type Bank struct {
 	BankName string
