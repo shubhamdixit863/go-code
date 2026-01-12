@@ -1,88 +1,50 @@
 package main
 
-import "fmt"
-
-// porvided by go library ,you dont need to invoke it by yourslef ,it gets called automatically before main
-func init() {
-	fmt.Println("I will be called before main")
-}
+import (
+	"fmt"
+	"go-code/banking"
+)
 
 func main() {
-	fmt.Println("Main is called")
 
-	//// annonymous function or lmabda function they dnt need to have name
-	//c := func(param int) int {
-	//	/// you can put logic
-	//	fmt.Println(param)
-	//	return 2 * 2
-	//}(2)
-
-	//fmt.Println(c)
-
-	//func() {
-	//
-	//}()
-
-	//c := foo()
-	//
-	//// c is also a function
-	//
-	//c()
-
-	applyOperation(func(x int) int {
-		if x%2 == 0 {
-			return x * 2
-		} else {
-			return x * 3
-		}
-
-	})
-
-	gh(2)
-}
-
-// function foo is a higher order  function because it is returning a function
-func foo() func() int {
-
-	// i can return a function from it
-	return func() int {
-		return 2
+	// 1. Create Bank
+	bank := banking.Bank{
+		BankName: "Go Bank",
+		IFSCCode: "GO001",
 	}
-}
 
-// bar is a higher order function as well
-// param is a call back function
-func bar(param func(p int) int) {
-	param(2)
-}
+	// 2. Create Customers
+	c1 := banking.Customer{1, "Amit", 25, "9999", true}
+	c2 := banking.Customer{2, "Sneha", 30, "8888", true}
+	c3 := banking.Customer{3, "Ravi", 17, "7777", true}
 
-/**
-Write a Go program that demonstrates a higher-order function.
- 1. Create a higher-order function named applyOperation that:
- • Accepts another function as a parameter
- • The passed function should take an integer and return an integer
- 2. Inside applyOperation:
- • Use a for loop to iterate from 1 to 5
- • For each number, call the passed function
- • Print the returned result
- 3. In main:
- • Pass an anonymous function to applyOperation
- • The anonymous function should use if–else logic:
- • If the number is even, return n * 2
- • If the number is odd, return n * 3
+	// 3. Open Accounts
+	bank.Account1 = banking.BankAccount{101, "Savings", 2000, false, false, &c1, banking.Transaction{}}
+	bank.Account2 = banking.BankAccount{102, "Current", 8000, false, false, &c2, banking.Transaction{}}
+	bank.Account3 = banking.BankAccount{103, "Savings", 1500, false, false, &c3, banking.Transaction{}}
 
-*/
+	// 4. Perform operations
+	bank.Account1.Deposit(500)
+	bank.Account1.Withdraw(200)
 
-func gh(p int) {
+	// 5. Freeze account and show failure
+	bank.Account1.FreezeAccount()
+	bank.Account1.Withdraw(100)
 
-}
+	// 6. Deactivate customer and block transaction
+	c2.DeactivateCustomer()
+	bank.Account2.Deposit(100)
 
-func hj(k func(ji int) int) {
+	// 7. Transfer funds
+	bank.TransferFunds(&bank.Account2, &bank.Account1, 500)
 
-}
-func applyOperation(p func(x int) int) {
-	for i := 1; i <= 5; i++ {
-		ret := p(i)
-		fmt.Println(ret)
-	}
+	// 8. Print results
+	fmt.Println("\n--- FINAL REPORT ---")
+	fmt.Println("Account 101 Balance:", bank.Account1.GetBalance())
+	fmt.Println("Last Txn Status:", bank.Account1.LastTxn.Status)
+
+	fmt.Println("Account 102 Balance:", bank.Account2.GetBalance())
+	fmt.Println("Last Txn Status:", bank.Account2.LastTxn.Status)
+
+	fmt.Println("Bank Total Funds:", bank.GetBankTotalFunds())
 }
