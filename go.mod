@@ -1,3 +1,3 @@
-module go-seession
+module g0-code
 
-go 1.25.2
+go 1.25.5
