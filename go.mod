@@ -1,3 +1,3 @@
-module go-seession
+module gotask
 
-go 1.25.2
+go 1.25.5
