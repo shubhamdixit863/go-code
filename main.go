@@ -1,10 +1,11 @@
-package main
+//package main
 
-import (
-	"fmt"
-	//"go-code/banking"
-	"go-code/pointer"
-)
+// import (
+// 	"fmt"
+// 	//"go-code/banking"
+// 	//"go-code/pointer"
+// 	"go-code/restaurant"
+// )
 
 // func main() {
 
@@ -49,17 +50,56 @@ import (
 
 // 	fmt.Println("Bank Total Funds:", bank.GetBankTotalFunds())
 // }
+// func main() {
+
+// 	x := 20
+// 	y := 40
+
+// 	fmt.Println("Before swap:")
+// 	fmt.Println("x =", x)
+// 	fmt.Println("y =", y)
+// 	pointer.SwapAndAdd(&x, &y)
+
+// 	fmt.Println("\nAfter swap:")
+// 	fmt.Println("x =", x)
+// 	fmt.Println("y =", y)
+// }
+package main
+
+import "fmt"
+
+type Franchise interface {
+	PrepareFood() string
+	GetMenu() []string
+	GetLocation() string
+}
+
+type McDonalds struct{}
+
+func (McDonalds) PrepareFood() string { return "Big Mac ready" }
+func (McDonalds) GetMenu() []string   { return []string{"Big Mac", "Fries"} }
+func (McDonalds) GetLocation() string { return "Hyderabad" }
+
+type KFC struct{}
+
+func (KFC) PrepareFood() string { return "Chicken ready" }
+func (KFC) GetMenu() []string   { return []string{"Fried Chicken", "Zinger"} }
+func (KFC) GetLocation() string { return "Bangalore" }
+
+type BurgerKing struct{}
+
+func (BurgerKing) PrepareFood() string { return "Whopper ready" }
+func (BurgerKing) GetMenu() []string   { return []string{"Whopper", "Fries"} }
+func (BurgerKing) GetLocation() string { return "Chennai" }
+
+func Operate(f Franchise) {
+	fmt.Println(f.GetLocation())
+	fmt.Println(f.GetMenu())
+	fmt.Println(f.PrepareFood())
+}
+
 func main() {
-
-	x := 20
-	y := 40
-
-	fmt.Println("Before swap:")
-	fmt.Println("x =", x)
-	fmt.Println("y =", y)
-	pointer.SwapAndAdd(&x, &y)
-
-	fmt.Println("\nAfter swap:")
-	fmt.Println("x =", x)
-	fmt.Println("y =", y)
+	Operate(McDonalds{})
+	Operate(KFC{})
+	Operate(BurgerKing{})
 }
