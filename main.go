@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go-code/banking"
+	"go-code/franchise"
 )
 
 func main() {
@@ -47,4 +48,26 @@ func main() {
 	fmt.Println("Last Txn Status:", bank.Account2.LastTxn.Status)
 
 	fmt.Println("Bank Total Funds:", bank.GetBankTotalFunds())
+
+
+    mc:=franchise.McDonalds{
+		Location: "Chennai",
+		Menu: "Burger, Fries, Coke",
+		Preparation: "Burger is prepared with fresh ingredients.",
+	}
+	kfc:=franchise.KFC{
+		Location: "Bangalore",
+		Menu: "Fried Chicken, Mashed Potatoes, Gravy",
+		Preparation: "Fried Chicken is prepared with secret spices.",
+	}
+	bk:=franchise.BurgerKing{
+		Location: "Mumbai",
+		Menu: "Whopper, Onion Rings, Soft Drink",
+		Preparation: "Whopper is flame-grilled to perfection.",
+	}
+	fmt.Println("\n--- FRANCHISE OPERATIONS ---")
+	franchise.Operate(mc)
+	franchise.Operate(kfc)
+	franchise.Operate(bk)
+
 }
