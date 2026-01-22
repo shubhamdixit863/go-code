@@ -1,242 +1,260 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"os"
+	"go-code/bankingPkg"
+	"go-code/bankingSys"
+	"go-code/composition"
+	"go-code/directions"
+	"go-code/fizbuzz"
+	"go-code/funPackage"
+	"go-code/highOrder"
+	"go-code/ifElse"
+	"go-code/interfaces"
+	"go-code/loopPrc"
+	"go-code/objectsPkg"
+	"go-code/errorHandling"
+	
 )
 
-// interfaces --have some kind of contract or some kind of agreement with the objects
-type Humans struct {
-	Name string
-}
-
-func (h Humans) Angry() {
-	fmt.Println(h.Name, "is angry")
-}
-
-func (h Humans) Speak() {
-	fmt.Println(h.Name, "is speaking in telugus")
-}
-
-func (h Humans) Hunt() {
-	fmt.Println(h.Name, "hunting mosquitos")
-}
-func (h Humans) Play() {
-	fmt.Println(h.Name, "is playing crickte")
-}
-func (h Humans) Eat() {
-	fmt.Println(h.Name, "is easting hyderbadi birayni")
-}
-
-type Cat struct {
-	Tail int
-}
-
-func (h Cat) Angry() {
-	fmt.Println("is angry")
-}
-
-func (h Cat) Speak() {
-	fmt.Println("is roaring")
-}
-
-func (h Cat) Hunt() {
-	fmt.Println("cat would be eayting rabbits or deers")
-}
-func (h Cat) Play() {
-	fmt.Println("Playing  with tigers")
-}
-func (h Cat) Eat() {
-	fmt.Println("will eat dear")
-}
-
-// the whole purpose of an interface is to give the generallized behaviour for concrete objects
-type Animal interface {
-	Angry()
-	Speak()
-	Eat()
-	Play()
-	Hunt()
-	Crawl(p int) string
-}
-
-// interface{}
-func Party(p interface{}) {
-	fmt.Println(p)
-}
-
-// interface{} is a super type and every object and every built in type satisfies it
 func main() {
 
-	//mahesh := Humans{
-	//	Name: "Mahesh",
-	//}
-	//
-	//mahesh.Eat()
-	//mahesh.Angry()
-	//mahesh.Hunt()
-	//mahesh.Speak()
-	//mahesh.Play()
-	//
-	//// We can say mahesh is animal
-	//
-	////tiger := Cat{
-	////	Tail: 1,
-	////}
-	//
-	//Party(3)
-	//Party("ssay")
-	//Party(mahesh)
-	////
-	////mc := McDonalds{
-	////	Location: "Hyderabad",
-	////	Menu:     "Burger,MMc Maharaja ,alootokki",
-	////}
-	//
-	////fmt.Println(mc.GetMenu())
-	//
-	////Operator(mc)
-	////err := ReadFile()
-	////fmt.Println(err)
+	//Directions using basic Import functions
+	fmt.Println("Directions")
+	fmt.Println("North: ",directions.North)
+	fmt.Println("East: ",directions.East)
+	fmt.Println("West: ",directions.West)
+	fmt.Println("South: ",directions.South)
 
-	//fmt.Println(DivideMe235(4, 0))
-	doPanic()
+	//Arithmatic Operations Using Functions
+	Sum,Sub,Mul:=funPackage.Cal(1,2,3,4,5)
+	fmt.Println("Sum",Sum)
+	fmt.Println("Sub",Sub)
+	fmt.Println("Mul",Mul)
+
+	//Division
+	div,rem:=funPackage.DivRem(10,20)
+	fmt.Println("Division:",div)
+	fmt.Println("Remainder:",rem)
+
+	//Switch
+	nums:=fizbuzz.SwitchPrac(10)
+	fmt.Println(nums)
+
+	//continue in LOOPS
+	for i:=0;i<50;i++{
+		if(i%2==0){
+			continue
+		}
+		fmt.Println(i)
+	}
+	
+	//Loops
+	for i := 1; i < 16; i++ {
+		fmt.Println(loopPrc.Fizzbuzzes(i))
+	}
+
+
+	var a bankingPkg.Amount = 1500 
+	var b bankingPkg.Amount = 2500 
+
+	sum := bankingPkg.AddAmount(a, b)
+
+	fmt.Println("Sum (in paise):", sum)
+	fmt.Println("Is sum positive?", bankingPkg.IsPositive(sum))
+
+	// Transaction status
+	status := bankingPkg.Completed
+
+	fmt.Println("Is final status?", bankingPkg.IsFinalStatus(status))
+
+	//higher order
+	highorder.ApplyOperation(func(n int) int {
+		if n%2 == 0 {
+			return n * 2 
+		} else {
+			return n * 3 
+	 	}
+	})
+
+	//structs+methods
+	student1 := objectsPkg.Student{Name: "Rajkumar", Marks: 82}
+	student2 := objectsPkg.Student{Name: "Arjun", Marks: 35}
+
+	// Print student details
+	fmt.Println("Student Name:", student1.Name)
+	fmt.Println("Passed:", student1.IsPassed())
+	fmt.Println("Grade:", student1.Grade())
+	fmt.Println()
+
+	fmt.Println("Student Name:", student2.Name)
+	fmt.Println("Passed:", student2.IsPassed())
+	fmt.Println("Grade:", student2.Grade())
+
+	
+
+
+//ifElse
+myAge:=ifElse.VoteEligibility(20)
+fmt.Println(myAge)
+
+hi:=userDefined(2,2)
+fmt.Println(hi)
+
+result1,result2:=rectangle(2,3)
+fmt.Println("Area of rectangle : ",result1,"Perimeter of Rectangle : ",result2)
+//Structs
+type person struct{
+	Name string 
+	Age int
+	Height int
 }
-
-func Operator(fr Franchise) {
-	fmt.Println(fr.PrepareFood())
-	fmt.Println(fr.GetLocation())
-	fmt.Println(fr.GetMenu())
+p1:=person{
+	Name:"Rajkumar",
+	Age: 20,
+	Height: 5,
 }
+fmt.Println(p1.Age,p1.Name,p1.Height)
 
-type Data2 struct {
+//Composition 
+emp:=composition.Employee{
+	Name:"Rajkumar",
+	Address:composition.Address{
+		City: "Hyderabad",
+		State: "Telangana",
+	},
 }
+fmt.Println(emp.Name,
+emp.Address.City,
+emp.Address.State)
 
-/**
-   Functional Requirements
-	1.	Define an interface named Franchise that declares the following methods:
-	•	PrepareFood() string
-	•	GetMenu() []string
-	•	GetLocation() string
-	2.	Create at least three different franchises (e.g., McDonald’s, KFC, Burger King) that implement the Franchise interface.
-	•	Each franchise must return:
-	•	a unique menu
-	•	a unique food preparation result
-	•	a different location
-	3.	Implement a function named Operate(fr Franchise) that:
-	•	Accepts a Franchise interface
-	•	Prints the franchise location
-	•	Prints the menu
-	•	Prepares food
+std1:=stud{"Raj",70}
+std2:=stud{"other",30}
+fmt.Println(std1,stud.IsPassed(std1),stud.Grd(std1))
+fmt.Println(std2,stud.IsPassed(std2),stud.Grd(std2))
 
-Type Franchise interface{
-   PrepareFood() string
-	•	GetMenu() []string
-	•	GetLocation() string
 
-}
-*/
+	/*
+	My Banking Aplication 
+	*/
 
-type Franchise interface {
-	PrepareFood() string
-	GetMenu() string
-	GetLocation() string
-}
+	// Customers
+	Customer1 := bankingsys.Customer{CustomerID: 1, FullName: "Raam Ayodhya", Age: 21, PhoneNumber: 7671913261, IsActive: true}
+	Customer2 := bankingsys.Customer{CustomerID: 2, FullName: "Shiv Kailash", Age: 23, PhoneNumber: 7671913262, IsActive: true}
+	Customer3 := bankingsys.Customer{CustomerID: 3, FullName: "Maadhav Dwarakadeesh", Age: 22, PhoneNumber: 7671913263, IsActive: true}
 
-type McDonalds struct {
-	Menu     string
-	Location string
-}
+	// Accounts
+	Account1 := bankingsys.BankAccount{AccountNumber: 101, AccountType: "SAVINGS", Balance: 5000, IsFrozen: false, Owner: Customer1, LastTxn: bankingsys.Transaction{}}
+	Account2 := bankingsys.BankAccount{AccountNumber: 102, AccountType: "CURRENT", Balance: 12000, IsFrozen: false, Owner: Customer2, LastTxn: bankingsys.Transaction{}}
+	Account3 := bankingsys.BankAccount{AccountNumber: 103, AccountType: "SAVINGS", Balance: 3000, IsFrozen: false, Owner: Customer3, LastTxn: bankingsys.Transaction{}}
 
-func (m McDonalds) PrepareFood() string {
-	return "Preparing food"
-}
+	// Bank
+	MyBank := bankingsys.Bank{
+		BankName: "Go Bank",
+		IFSCCode: "BB0001",
+		Account1: Account1,
+		Account2: Account2,
+		Account3: Account3,
+		Customer1: Customer1,
+		Customer2: Customer2,
+		Customer3: Customer3,
+	}
 
-func (m McDonalds) GetMenu() string {
-	return m.Menu
-}
+	// Open accounts
+	MyBank = MyBank.OpenAccount(Account1)
+	MyBank = MyBank.OpenAccount(Account2)
+	MyBank = MyBank.OpenAccount(Account3)
 
-func (m McDonalds) GetLocation() string {
-	return m.Location
-}
+	// Operations
+	MyBank.Account1 = MyBank.Account1.Deposit(2000, 1)
+	MyBank.Account2 = MyBank.Account2.Withdraw(4000, 2)
 
-type KFC struct {
-	Menu    string
-	Addrses string
-}
+	// Freeze & fail
+	MyBank.Account2 = MyBank.Account2.FreezeAccount()
+	MyBank = MyBank.TransferFunds(MyBank.Account2, MyBank.Account1, 2000, 3)
 
-func (m KFC) PrepareFood() string {
-	return "Preparing food"
-}
+	// Output
+	fmt.Println("Account1 Balance:", MyBank.Account1.GetBalance())
+	fmt.Println("Last Transaction:", MyBank.Account1.LastTxn)
 
-func (m KFC) GetMenu() string {
-	return m.Menu
-}
+	fmt.Println("Account2 Balance:", MyBank.Account2.GetBalance())
+	fmt.Println("Last Transaction:", MyBank.Account2.LastTxn)
 
-func (m KFC) GetLocation() string {
-	return m.Addrses
-}
+	fmt.Println("Bank Total Funds:", MyBank.GetBankTotalFunds())
 
-type CustomError struct {
-}
+	//Interfaces
+	mc:=interfaces.McDonalds{
+		Menu:"Extra Spicy Burger, French Friess, Sprite",
+		FoodPrepResult:"Food Prepared Successfully and will be served within 5 mins !!",
+		Location:"Hyderabad",
+	}
+	kf:=interfaces.KFC{
+		Menu:"Fried Chicken from Kentucky, Cheese Pizza, Fanta",
+		FoodPrepResult:"Food Preparaton is in progress , Thankyou for your Patience  !!",
+		Location:"Bangalore",
+	}
+	bk:=interfaces.BurgerKing{
+		Menu:"chicken Lollipops, Pizza , Thumbs Up",
+		FoodPrepResult:"Food Prepared Successfully  Be Ready to eat !!",
+		Location:"Karimnagar",
+	}
+	interfaces.Operate(mc)
+	interfaces.Operate(kf)
+	interfaces.Operate(bk)
+	
+	//Area Interface
+	rect:=interfaces.Rectangle{
+		Width:10.50,
+		Height:12.50,
+	}
+	cir:=interfaces.Circle{
+		Radius:25.00,
+	}
+	fmt.Println("Area of Rectangle is: ",interfaces.CalculateArea(rect))
+	fmt.Println("Area of Circle is:",interfaces.CalculateArea(cir))
 
-func (c CustomError) Error() string {
-	return "my cistom error"
-}
-
-func foo23() error {
-	return CustomError{} // this red line should go
-}
-
-// I want to make the CustomError of type error what all I have to do !!!
-
-func ReadFile() error {
-	open, err := os.Open("./main47.go")
-
+	//Error Handling
+	value, err := errorHandling.Divide(10, 0)
+	
 	if err != nil {
-		return err
+		fmt.Println("Error:", err)
+		return
 	}
 
-	fmt.Println("fp", open)
-	return nil
+	fmt.Println("Result:", value)
+
 }
 
-/// Create a function divide ,whihc returns an error if the number passed is 0 ,it should take two numbers
-//// it should return error and the dividde value   // fh()== err ,value
-// fmt.ErrorF() // formatted error
-// custom error
-// errors.New()
+//User Defined Functions
+func userDefined(MyNum1,MyNum2 int)(x int){
+	return MyNum1+MyNum2
+}
 
-func DivideMe(a, b int) (int, error) {
-	if b == 0 {
-		return 0, fmt.Errorf("erorr dividing by %d", b) // %d for integer ,%s for string
+func rectangle(l,w int)(area,perimeter int){
+	area=l*w
+	perimeter=2*(l+w)
+	return
+}
+/*
+ STUDENT USING STRUCT AND METHOD
+ */
+type stud struct{
+	Nam string
+	Mks int
+}
+
+func (s stud) IsPassed()bool{
+	return s.Mks>=40
+}
+func (s stud) Grd()string{
+	if s.Mks>=75{
+		return "A"
+	}else if s.Mks>=60 && s.Mks<75{
+		return "B"
+	}else if s.Mks>=40 && s.Mks<60{
+		return "C"
+	}else{
+		return "F"
 	}
-
-	return a / b, nil
 }
 
-func DivideMe2(a, b int) (int, error) {
-	if b == 0 {
-		return 0, errors.New("error dividing by zero")
-	}
-
-	return a / b, nil
-}
-
-func DivideMe23(a, b int) (int, error) {
-	if b == 0 {
-		return 0, CustomError{}
-	}
-
-	return a / b, nil
-}
-
-func DivideMe235(a, b int) int {
-
-	return a / b
-}
-
-func doPanic() {
-	panic("I am panicking")
-}
